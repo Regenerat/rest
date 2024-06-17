@@ -36,8 +36,11 @@ class Users extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'surname', 'email', 'password', 'password_confirm'], 'required'],
+            [['name', 'surname', 'email', 'password', 'password_confirm'], 'required', 'message' => 'Поле не может быть пустым.'],
             [['role_id'], 'integer'],
+            ['password', 'string', 'min' => 6, 'tooShort' => 'Пароль должен содержать минимум 6 символов.'],
+            ['email', 'email', 'message' => 'Некорректный формат email.'],
+            [['name', 'surname'], 'match', 'pattern' => '/^[a-zA-Zа-яА-ЯёЁ]+$/u', 'message' => '{attribute} может содержать только буквы.'],
             [['password_confirm'], 'compare', 'compareAttribute' => 'password', 'message' => 'Пароли должны совпадать'],
             [['name', 'surname', 'email', 'password'], 'string', 'max' => 255],
             [['role_id'], 'exist', 'skipOnError' => true, 'targetClass' => Roles::class, 'targetAttribute' => ['role_id' => 'id']],
@@ -51,11 +54,11 @@ class Users extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'name' => 'Name',
-            'surname' => 'Surname',
+            'name' => 'Имя',
+            'surname' => 'Фамилия',
             'email' => 'Email',
-            'password' => 'Password',
-            'role_id' => 'Role ID',
+            'password' => 'Пароль',
+            'role_id' => 'Подтверждение пароля',
         ];
     }
 
