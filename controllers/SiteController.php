@@ -9,6 +9,8 @@ use yii\web\Response;
 use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\ContactForm;
+use app\models\Roles;
+use app\models\Users;
 
 class SiteController extends Controller
 {
@@ -124,5 +126,25 @@ class SiteController extends Controller
     public function actionAbout()
     {
         return $this->render('about');
+    }
+
+    public function actionCreate()
+    {
+        $model = new Users();
+
+        if ($this->request->isPost) {
+            if ($model->load($this->request->post())) {
+                $model->role_id = Roles::USER_ROLE;
+                if($model->save()){
+                    return $this->redirect(['index', 'id' => $model->id]);
+                } 
+            }
+        } else {
+            $model->loadDefaultValues();
+        }
+
+        return $this->render('create', [
+            'model' => $model,
+        ]);
     }
 }
