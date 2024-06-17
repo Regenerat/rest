@@ -12,6 +12,7 @@ use Yii;
  * @property string $surname
  * @property string $email
  * @property string $password
+ * @property string $password_confirm
  * @property int $role_id
  *
  * @property Bookings[] $bookings
@@ -27,14 +28,17 @@ class Users extends \yii\db\ActiveRecord
         return 'users';
     }
 
+    var $password_confirm = "";
+
     /**
      * {@inheritdoc}
      */
     public function rules()
     {
         return [
-            [['name', 'surname', 'email', 'password', 'role_id'], 'required'],
+            [['name', 'surname', 'email', 'password', 'password_confirm'], 'required'],
             [['role_id'], 'integer'],
+            [['password_confirm'], 'compare', 'compareAttribute' => 'password', 'message' => 'Пароли должны совпадать'],
             [['name', 'surname', 'email', 'password'], 'string', 'max' => 255],
             [['role_id'], 'exist', 'skipOnError' => true, 'targetClass' => Roles::class, 'targetAttribute' => ['role_id' => 'id']],
         ];
