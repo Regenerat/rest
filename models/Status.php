@@ -14,6 +14,15 @@ use Yii;
  */
 class Status extends \yii\db\ActiveRecord
 {
+    public function __toString()
+    {
+        return $this->status;
+    }
+
+    const NEW_STATUS = 1;
+    const CONFIRMED_STATUS = 2;
+    const DECLINED_STATUS = 3;
+
     /**
      * {@inheritdoc}
      */
