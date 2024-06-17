@@ -4,6 +4,8 @@ namespace app\controllers;
 
 use app\models\Bookings;
 use app\models\BookingsSearch;
+use app\models\Roles;
+use Yii;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -39,7 +41,13 @@ class BookingsController extends Controller
     public function actionIndex()
     {
         $searchModel = new BookingsSearch();
-        $dataProvider = $searchModel->search($this->request->queryParams);
+        $IDs = null;
+
+        if(Yii::$app->user->identity->role_id == Roles::USER_ROLE){
+            $IDs = Yii::$app->user->identity->id;
+        }
+
+        $dataProvider = $searchModel->search($this->request->queryParams, $IDs);
 
         return $this->render('index', [
             'searchModel' => $searchModel,

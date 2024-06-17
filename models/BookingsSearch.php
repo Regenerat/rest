@@ -38,7 +38,7 @@ class BookingsSearch extends Bookings
      *
      * @return ActiveDataProvider
      */
-    public function search($params)
+    public function search($params, $id = null)
     {
         $query = Bookings::find();
 
@@ -59,7 +59,7 @@ class BookingsSearch extends Bookings
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
-            'user_id' => $this->user_id,
+            'user_id' => ($id ?? $this->user_id),
             'table_id' => $this->table_id,
             'date' => $this->date,
             'time' => $this->time,
