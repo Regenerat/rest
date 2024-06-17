@@ -57,6 +57,7 @@ class Bookings extends \yii\db\ActiveRecord
             'time' => 'Время',
             'status_id' => 'Status ID',
             'table' => 'Столики',
+            'status' => 'Статус',
         ];
     }
 
