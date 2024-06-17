@@ -1,6 +1,8 @@
 <?php
 
 use app\models\Bookings;
+use app\models\Roles;
+use app\models\Status;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\grid\ActionColumn;
@@ -29,12 +31,23 @@ $this->params['breadcrumbs'][] = $this->title;
             'table',
             'date',
             'time',
-            //'status_id',
+            'status',
             [
-                'class' => ActionColumn::className(),
-                'urlCreator' => function ($action, Bookings $model, $key, $index, $column) {
-                    return Url::toRoute([$action, 'id' => $model->id]);
-                 }
+                'attribute' => 'Сменить статус',
+                'visible' => (Yii::$app->user->identity->role_id == Roles::ADMIN_ROLE ? true : false),
+                'format' => 'raw',
+                'value' => function($model) {
+                    if($model->status_id == Status::NEW_STATUS){
+                        $html = Html::beginForm(Url::to(['update', 'id' => $model->id]));
+                        $html .= Html::activeDropDownList($model, 'status_id', [
+                            '2' => 'Принять',
+                            '3' => 'Отклонить',
+                        ]);
+                        $html .= Html::submitButton('Save', ['class' => 'btn btn-success']);
+                        return $html;
+                    }
+                    return "";
+                }
             ],
         ],
     ]); ?>
