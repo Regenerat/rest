@@ -20,6 +20,7 @@ use Yii;
  */
 class Bookings extends \yii\db\ActiveRecord
 {
+    
     /**
      * {@inheritdoc}
      */
@@ -52,9 +53,10 @@ class Bookings extends \yii\db\ActiveRecord
             'id' => 'ID',
             'user_id' => 'User ID',
             'table_id' => 'Table ID',
-            'date' => 'Date',
-            'time' => 'Time',
+            'date' => 'Дата',
+            'time' => 'Время',
             'status_id' => 'Status ID',
+            'table' => 'Столики',
         ];
     }
 
