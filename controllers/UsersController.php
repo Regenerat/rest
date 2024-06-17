@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\models\Roles;
 use app\models\Users;
 use app\models\UsersSearch;
 use yii\web\Controller;
@@ -70,8 +71,11 @@ class UsersController extends Controller
         $model = new Users();
 
         if ($this->request->isPost) {
-            if ($model->load($this->request->post()) && $model->save()) {
-                return $this->redirect(['view', 'id' => $model->id]);
+            if ($model->load($this->request->post())) {
+                $model->role_id = Roles::USER_ROLE;
+                if($model->save()){
+                    return $this->redirect(['view', 'id' => $model->id]);
+                } 
             }
         } else {
             $model->loadDefaultValues();
