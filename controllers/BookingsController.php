@@ -5,6 +5,7 @@ namespace app\controllers;
 use app\models\Bookings;
 use app\models\BookingsSearch;
 use app\models\Roles;
+use app\models\Status;
 use Yii;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -78,8 +79,11 @@ class BookingsController extends Controller
         $model = new Bookings();
 
         if ($this->request->isPost) {
-            if ($model->load($this->request->post()) && $model->save()) {
+            if ($model->load($this->request->post())) {
+                $model->status_id = Status::NEW_STATUS;
+                if($model->save()){
                 return $this->redirect(['view', 'id' => $model->id]);
+                }
             }
         } else {
             $model->loadDefaultValues();
